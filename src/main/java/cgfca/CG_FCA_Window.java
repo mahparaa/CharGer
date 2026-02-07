@@ -53,18 +53,18 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
             public void windowClosing( WindowEvent e ) {
                 CG_FCA.shutdownCGFCA();
             }
-//            public void windowActivated( WindowEvent e ) {
+            //            public void windowActivated( WindowEvent e ) {
 //                thisWindowActivated();
 //            }
             public void windowDeactivated( WindowEvent e ) {
 
             }
-            
+
             public void windowActivated( WindowEvent e ) {
                 refresh();
             }
-            
-            
+
+
         } );
     }
 
@@ -82,7 +82,7 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
     public JMenu getWindowMenu() {
         return windowMenu;
     }
-    
+
     public void refresh() {
         this.editFrameList.setEnabled( false );
         this.editFrameList.removeAllItems();
@@ -95,8 +95,8 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
         }
         this.editFrameList.setEnabled( true );
     }
-    
-    
+
+
 
     /**
      * Clear out the contents of the window, including the cxt text and the report.
@@ -224,8 +224,8 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
         Graph graphSelected = null;
         if ( editFrameList.getSelectedIndex() < 0 ) {
             graphSelectedNameLabel.setText( "....No graph selected..." );
-         cxtText.setText(  "");
-       } else {
+            cxtText.setText(  "");
+        } else {
             String frameNameSelected = editFrameList.getSelectedItem().toString();
             graphSelectedNameLabel.setText( frameNameSelected );
             for ( EditFrame ef : Global.editFrameList.values() ) {
@@ -249,10 +249,10 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
     }//GEN-LAST:event_editFrameListActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-         if ( pf == null ) {
-             JOptionPane.showMessageDialog( this, "A graph must be chosen in order to export its information.");
-             return;
-         }
+        if ( pf == null ) {
+            JOptionPane.showMessageDialog( this, "A graph must be chosen in order to export its information.");
+            return;
+        }
         try {
             String basename = pf.filename.substring( 0, pf.filename.lastIndexOf( ".cgx"));
 
@@ -263,8 +263,8 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
             FileWriter reportWriter = new FileWriter( basename + ".txt" );
             reportWriter.write( pf.getReportContent());
             reportWriter.close();
-            JOptionPane.showMessageDialog( this, "Context saved to: \n\"" + basename + ".cxt" + "\"\n\n" 
-                + "Report saved to: \n\"" + basename + ".txt" + "\"\n" );
+            JOptionPane.showMessageDialog( this, "Context saved to: \n\"" + basename + ".cxt" + "\"\n\n"
+                    + "Report saved to: \n\"" + basename + ".txt" + "\"\n" );
 
         } catch ( IOException ex ) {
             Logger.getLogger( CG_FCA_Window.class.getName() ).log( Level.SEVERE, null, ex );

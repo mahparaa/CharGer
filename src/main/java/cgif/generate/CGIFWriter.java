@@ -669,8 +669,8 @@ public class CGIFWriter {
      * <code>&#92;u0022</code>. All other characters are preserved.
      */
     protected static String quotify( String s ) {
-        
-        if ( needsQuote( s ) ) {
+
+        if (needsQuote( s ) ) {
             return "\"" + s.replaceAll( Pattern.quote( "\"" ), "\\\\\\\"" ) + "\"";
         } else {
             return s;
@@ -691,7 +691,11 @@ public class CGIFWriter {
      * @param s
      * @return true if anything other than alphanumeric characters are present.
      */
-    protected static boolean needsQuote( String s )  {
-        return ! s.matches( "[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_]*");
+    protected static boolean needsQuote(String s) {
+        if (!Global.showQuote) {
+            return false;   // OFF → never quote anything
+        }
+        // ON → quote if there are spaces OR if it's a URL / literal constant
+        return s.contains(" ") || s.contains(".");
     }
 }

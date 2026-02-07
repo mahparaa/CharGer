@@ -193,7 +193,7 @@ public class EditFrame extends JFrame
      * Global unique number assigned to this frame; never used again in this
      * session.
      */
-    public int editFrameNum = Global.addEditFrame( this );
+    public int editFrameNum = 0;
     /**
      * basename of graph, not including any suffixes, modalities, etc.
      */
@@ -350,6 +350,7 @@ public class EditFrame extends JFrame
         }
         repaint();
         requestFocus();
+        this.editFrameNum = Global.addEditFrame( this );
     }
 
     /**
@@ -601,7 +602,6 @@ public class EditFrame extends JFrame
         setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
 
         Global.addGraph( TheGraph );
-
         try {
             setupComponents();
         } catch ( Exception goodbye ) {
@@ -2369,5 +2369,9 @@ public class EditFrame extends JFrame
         return windowMenu;
     }
 
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 
 }
