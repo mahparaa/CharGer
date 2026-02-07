@@ -1246,7 +1246,6 @@ public class Global {
         if ( a != null ) {
             error( "Error adding frame number " + LastWindow + "." );
         }
-
         return LastWindow;
     }
 

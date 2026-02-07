@@ -366,4 +366,8 @@ public class WindowManager {
     public static synchronized void refreshWindowMenuList( ManagedWindow activeFrame ) {
         WindowManager.makeMenu( activeFrame );
     }
+
+    public static ArrayList<ManagedWindow> getManagedWindows() {
+        return new ArrayList<>(windowList);
+    }
 }

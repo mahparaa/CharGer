@@ -35,9 +35,10 @@ public class CG_FCA {
     public static void startupCGFCA() {
         cgFCAWindow = new CG_FCA_Window();
         WindowManager.manageWindow( cgFCAWindow );
-//        cgFCAWindow.enableCorefs.set
         cgFCAWindow.setVisible( true );
 
+        // ADD THIS - refresh the dropdown after the window is shown and visible
+        cgFCAWindow.refresh();
     }
 
     /**
@@ -50,6 +51,9 @@ public class CG_FCA {
         }
         cgFCAWindow.toFront();
         cgFCAWindow.requestFocus();
+
+        // ADD THIS - refresh the dropdown every time the window is activated
+        cgFCAWindow.refresh();
     }
 
     public static void shutdownCGFCA() {
