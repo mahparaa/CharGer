@@ -199,17 +199,18 @@ TOKEN :
       ]
   >
 |
-  < #PART_LETTER:
-      [  // all chars for which Character.isIdentifierPart is true
-         "\u0000"-"\u0008",
-         "\u000e"-"\u001b",
-         "$",
-         "0"-"9",
-         "A"-"Z",
-         "_",
-         "a"-"z"
-      ]
-  > 
+ < #PART_LETTER:
+     [
+        "\u0000"-"\u0008",
+        "\u000e"-"\u001b",
+        "$",
+        "0"-"9",
+        "A"-"Z",
+        "_",
+        "a"-"z",
+        "-"    // <- add dash here
+     ]
+ >
 }
 
 
@@ -300,77 +301,93 @@ void concept( Graph g ) :
 
 Token typelabel() :
 {
+    Token first = null;
     Token t = null;
+    StringBuilder label = new StringBuilder();
 }
-{ 
-    t = <IDENTIFIER> 
-    { 
-        return t; 
-    }
-|
-      t = <QUOTED_STRING> 
-    { 
-        // CR-1003 should strip extraneous backslash?
-        return t; 
+{
+    // Case 1: identifier
+    first = <IDENTIFIER>
+    {
+        label.append(first.image);
+        first.image = label.toString();
+        return first;
     }
 
+|   // Case 2: quoted string
+    first = <QUOTED_STRING>
+    {
+        label.append(first.image);
+        first.image = label.toString();
+        return first;
+    }
+
+|   // Case 3: fallback, should not occur but guarantees return
+    {
+        // create a dummy token to satisfy compiler
+        first = new Token();
+        first.image = "";
+        return first;
+    }
 }
 
 Referent referent() :
 {
     Token t = null;
-    String s = null;
     Referent ref = null;
 }
-{ 
-    t = <IDENTIFIER> 
-    { 
-        ref = new Referent( t.image );
-        ref.setReferentString( t.image, false );
-        return ref; 
-    }
-      t = <QUOTED_STRING> 
-                { 
-                    ref = new Referent( t.image );
-                    ref.setReferentString( t.image, false );
-                    return ref; 
-                }
-   
-|    ( t = <INTEGER_LITERAL> | t = <FLOATING_POINT_LITERAL> )
-    {
-        ref = new Referent( );
-        ref.setReferentString( t.image, false );
-        ref.setNumber( Double.parseDouble( t.image ) );
-    }
-|   LOOKAHEAD( 2 )
-   s = variable() 
+{
+    // Variable with ? prefix
+    LOOKAHEAD(2)
+    <QUESTIONMARK> t = <IDENTIFIER>
     {
         ref = new Referent();
-        ref.setVariable( s );
-        ref.setReferentString( s );
+        ref.setVariable("?" + t.image);
+        ref.setReferentString("?" + t.image);
         return ref;
     }
-|   LOOKAHEAD( 2 )
-    <STAR>
+
+    // STAR variable like *x1
+|   <STAR> t = <IDENTIFIER>
     {
         ref = new Referent();
-        ref.setReferentString( "*", false );
-        String cgifref = (new NameGenerator()).generateName();
-        ref.setCgifVariableReference( cgifref );
+        ref.setVariable("*" + t.image);
+        ref.setReferentString("*" + t.image, false);
         return ref;
     }
-|  
-     <POUNDSIGN> ( t = <IDENTIFIER> | t = <INTEGER_LITERAL> )
-    {   ref = new Referent();
-        ref.setReferentString( "#" + t.image , false );
-        ref.setMarker( "#" + t.image ); 
-     }
+
+    // Plain identifier
+|   t = <IDENTIFIER>
+    {
+        ref = new Referent(t.image);
+        ref.setReferentString(t.image, false);
+        return ref;
+    }
+
+    // Quoted string as referent
+|   t = <QUOTED_STRING>
+    {
+        ref = new Referent(t.image);
+        ref.setReferentString(t.image, false);
+        return ref;
+    }
+
+    // Number literals
+|   ( t = <INTEGER_LITERAL> | t = <FLOATING_POINT_LITERAL> )
+    {
+        ref = new Referent();
+        ref.setReferentString(t.image, false);
+        ref.setNumber(Double.parseDouble(t.image));
+        return ref;
+    }
+
+    // Set / composite referents
 |   ref = setReferent()
     {
         return ref;
     }
-
 }
+
 
 void relation( Graph g ) :
 {
