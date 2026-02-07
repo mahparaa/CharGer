@@ -84,6 +84,7 @@ public class AppearancePrefPanel extends javax.swing.JPanel {
 
         showGEdgeDisplayRect = new javax.swing.JCheckBox();
         showShadows = new javax.swing.JCheckBox();
+        showCGIFGQuotes = new javax.swing.JCheckBox();
         showBorders = new javax.swing.JCheckBox();
         wrapLabels = new javax.swing.JCheckBox();
         wrapColumns = new javax.swing.JTextField();
@@ -149,6 +150,18 @@ public class AppearancePrefPanel extends javax.swing.JPanel {
         showBorders.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 showBordersItemStateChanged(evt);
+            }
+        });
+
+
+        showCGIFGQuotes.setBackground(new java.awt.Color(255, 255, 255));
+        showCGIFGQuotes.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
+        showCGIFGQuotes.setSelected(Global.showQuote);
+        showCGIFGQuotes.setText("Add \"quotes\" to CGIF output");
+        showCGIFGQuotes.setToolTipText("Add \"quotes\" when enabled on the label and referent to CGIF output");
+        showCGIFGQuotes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                showQuoteItemStateChanged(evt);
             }
         });
 
@@ -466,6 +479,7 @@ arrowHeadWidth.addActionListener(new java.awt.event.ActionListener() {
                         .add(showBorders, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(showGEdgeDisplayRect, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(showShadows, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(showCGIFGQuotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(contextCutPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(edgePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
@@ -496,6 +510,8 @@ arrowHeadWidth.addActionListener(new java.awt.event.ActionListener() {
                     .add(showGEdgeDisplayRect)
                     .add(4, 4, 4)
                     .add(showShadows)
+                    .add(4, 4, 4)
+                    .add(showCGIFGQuotes)
                     .add(4, 4, 4)
                     .add(showBorders)
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -548,6 +564,20 @@ arrowHeadWidth.addActionListener(new java.awt.event.ActionListener() {
         }
         colorPanel.refreshSampleObject();
     }//GEN-LAST:event_showShadowsItemStateChanged
+
+    private void showQuoteItemStateChanged(java.awt.event.ItemEvent evt) {
+        if ( evt.getStateChange() == ItemEvent.SELECTED ) {
+            Global.showQuote = true;
+        } else {
+            Global.showQuote = false;
+        }
+        if ( Global.showQuote ) {
+            Graph.contextInnerPadding = Graph.contextBorderWidth + 4;
+        } else {
+            Graph.contextInnerPadding = Graph.contextBorderWidth + 2;
+        }
+        colorPanel.refreshSampleObject();
+    }
 
     private void showBordersItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showBordersItemStateChanged
         if ( evt.getStateChange() == ItemEvent.SELECTED ) {
@@ -704,6 +734,7 @@ arrowHeadWidth.addActionListener(new java.awt.event.ActionListener() {
     public javax.swing.JCheckBox showFooterOnPrint;
     public javax.swing.JCheckBox showGEdgeDisplayRect;
     public javax.swing.JCheckBox showShadows;
+    public javax.swing.JCheckBox showCGIFGQuotes;
     public javax.swing.JTextField wrapColumns;
     public javax.swing.JCheckBox wrapLabels;
     // End of variables declaration//GEN-END:variables

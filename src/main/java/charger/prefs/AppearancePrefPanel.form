@@ -40,6 +40,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="showBorders" alignment="0" max="32767" attributes="0"/>
+						  <Component id="showQuote" alignment="0" max="32767" attributes="0"/>
                           <Component id="showGEdgeDisplayRect" alignment="0" max="32767" attributes="0"/>
                           <Component id="showShadows" alignment="0" max="32767" attributes="0"/>
                           <Component id="contextCutPanel" alignment="0" max="32767" attributes="0"/>
@@ -84,6 +85,8 @@
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="showShadows" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+					  <Component id="showQuote" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="showBorders" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -165,6 +168,30 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
+	<Component class="javax.swing.JCheckBox" name="showQuote">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Lucida Grande" size="12" style="0"/>
+        </Property>
+        <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Global.showQuote" type="code"/>
+        </Property>
+		<Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Global.showQuote" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Show &quot;outline&quot; on nodes and contexts"/>
+        <Property name="toolTipText" type="java.lang.String" value="Draw a border around every node (using text color)"/>
+      </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="showQuoteItemStateChanged"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
     <Component class="javax.swing.JCheckBox" name="showBorders">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -174,6 +201,9 @@
           <Font name="Lucida Grande" size="12" style="0"/>
         </Property>
         <Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Global.showBorders" type="code"/>
+        </Property>
+		<Property name="selected" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="Global.showBorders" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Show &quot;outline&quot; on nodes and contexts"/>

@@ -440,6 +440,7 @@ public class Global {
     public static Point shadowOffset = new Point( 3, 3 );
     // Things needed for doing the shadows
     public static boolean showShadows = true;
+    public static boolean showQuote = true;
 
         private static Border raisedBevel = BorderFactory.createRaisedBevelBorder();
         private static Border loweredBevel = BorderFactory.createLoweredBevelBorder();
@@ -599,6 +600,7 @@ public class Global {
 
         showShadows = Global.Prefs.getProperty( "showShadows", "true" ).equals( "true" );
         showBorders = Global.Prefs.getProperty( "showBorders", "true" ).equals( "true" );
+        showQuote   = Global.Prefs.getProperty( "showQuote", "true" ).equals( "true" );
         initializeDefaultColors();
 
         userEdgeAttributes.setArrowHeadWidth(
@@ -1244,6 +1246,7 @@ public class Global {
         if ( a != null ) {
             error( "Error adding frame number " + LastWindow + "." );
         }
+
         return LastWindow;
     }
 

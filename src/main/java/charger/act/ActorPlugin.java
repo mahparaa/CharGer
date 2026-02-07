@@ -45,7 +45,7 @@ public interface ActorPlugin {
      * @return name by which the actor will be known throughout the system; this
      * is the string that will be used as the label on an actor in CharGer.
      */
-    abstract public String getPluginActorName();
+    String getPluginActorName();
 
     /**
      * Assumption about input and output lists is that inputs are numbered 1..n
@@ -54,7 +54,7 @@ public interface ActorPlugin {
      * @return List of input concepts (or graphs), each with a constraining type
      * label (or "T" )
      */
-    abstract public ArrayList<Concept> getPluginActorInputConceptList();
+    ArrayList<Concept> getPluginActorInputConceptList();
 
     /**
      * Assumption about input and output lists is that inputs are numbered 1..n
@@ -63,14 +63,14 @@ public interface ActorPlugin {
      * @return List of output concepts (or graphs), each with a constraining
      * type label (or "T" )
      */
-    abstract public ArrayList<Concept> getPluginActorOutputConceptList();
+    ArrayList<Concept> getPluginActorOutputConceptList();
 
     /**
      * @return ArrayList of objects, usually in string form, indicating other
      * actor constraints.
      * @see charger.act.GraphUpdater#GraphObjectAttributes
      */
-    abstract public ArrayList getPluginActorAttributes();
+    ArrayList getPluginActorAttributes();
 
     /**
      * Perform the actor's operation. Called by GraphUpdater when input or
@@ -82,18 +82,18 @@ public interface ActorPlugin {
      * @param outputs ArrayList of charger.obj.Concept, set by the operation and
      * usable by the caller.
      */
-    abstract public void performActorOperation( GraphUpdater gu, ArrayList<Concept> inputs, ArrayList<Concept> outputs )
+    void performActorOperation( GraphUpdater gu, ArrayList<Concept> inputs, ArrayList<Concept> outputs )
             throws CGActorException;
 
     /**
      * Perform any clean-up required by the actor when it is deleted or its
      * graph is de-activated.
      */
-    abstract public void stopActor();
+    void stopActor();
 
     /**
      * @return a string identifying the author, version, and/or email address of
      * this plugin
      */
-    abstract public String getSourceInfo();
+    String getSourceInfo();
 }

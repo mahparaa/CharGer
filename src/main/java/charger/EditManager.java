@@ -169,7 +169,6 @@ public class EditManager implements ItemListener, ActionListener, ClipboardOwner
         ef.changeColorMenu.add( ef.ChangeColorGrayscaleItem );
         ef.ChangeColorGrayscaleItem.addActionListener( this );
 
-
         makeMenus();
     }
 

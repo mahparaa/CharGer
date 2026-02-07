@@ -218,6 +218,8 @@ public class PreferencesWriter {
                 appearance.showShadows.getToolTipText() )
                 + booleanPrefToString( "showBorders", Global.showBorders,
                 appearance.showBorders.getToolTipText() )
+                + booleanPrefToString( "showQuote", Global.showQuote,
+                appearance.showBorders.getToolTipText() )
                 + booleanPrefToString( "defaultWrapLabels", GraphObject.defaultWrapLabels,
                 appearance.wrapLabels.getToolTipText() )
                 + intPrefToString( "defaultWrapColumns", GraphObject.defaultWrapColumns,

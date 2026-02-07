@@ -8,7 +8,6 @@ package cgfca;
 
 import java.util.ArrayList;
 
-import charger.obj.GNode;
 import repgrid.RGBooleanValue;
 
 /**
