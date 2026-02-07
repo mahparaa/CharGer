@@ -1247,7 +1247,6 @@ public class Global {
             error( "Error adding frame number " + LastWindow + "." );
         }
 
-        cgfca.CG_FCA_Window.notifyNewFrameAdded();
         return LastWindow;
     }
 
