@@ -615,6 +615,7 @@ public class HubFrame extends JFrame implements ManagedWindow {
             }
         }
         AvailLabel.setText( GraphDisplayList.getModel().getSize() + " graphs available" );
+//        ..
     }
 
     public void thisFocusGained( java.awt.event.FocusEvent e ) {
@@ -657,40 +658,22 @@ public class HubFrame extends JFrame implements ManagedWindow {
             return;
         }
 
-        if ( files.length > 50 ) {
-            int result = JOptionPane.showConfirmDialog( this,
-                    "There are " + files.length + " graphs to open.\n" + ""
-                    + Global.EditorNameString + " may not have enough resources.\nDo you still want to try?" );
-            if ( result != JOptionPane.YES_OPTION ) {
-                return;
-            }
-        }
+        System.out.println("DEBUG HubFrame: openNamedFiles called with " + files.length + " files");
 
         setCursor( new Cursor( Cursor.WAIT_CURSOR ) );
         int numFilesOpened = 0;
         for ( int n = 0; n < files.length; n++ ) {
             int minMB = 4;
-            //pbar.setValue( n );
-            //jd.toFront();
             if ( Runtime.getRuntime().freeMemory() / ( 1024d * 1024d ) > minMB ) {
-//                Global.info("[openNamedFiles] file " + (int) (n + 1) + " of " + files.length + " is " + files[n]);
+                System.out.println("DEBUG HubFrame: Opening file " + files[n]);
                 String newname = Global.openGraphInNewFrame( files[n] );
+                System.out.println("DEBUG HubFrame: File opened, result = " + newname);
                 numFilesOpened++;
             } else {
                 Global.warning( "Memory less than " + minMB + " MB. Can't open graph." );
                 break;
             }
         }
-        // need to choose an edit frame to be first
-        EditFrame pickone = Global.getNewestEditFrame();
-        if ( pickone != null ) {
-            Global.setCurrentEditFrame( pickone );
-            pickone.requestFocus();
-            pickone.setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
-        }
-
-        Global.info( "finished loading " + numFilesOpened + " files." );
-        setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
     }
 
     public void NewWindowButtonActionPerformed( java.awt.event.ActionEvent e ) {
@@ -1102,8 +1085,6 @@ public class HubFrame extends JFrame implements ManagedWindow {
 
             public void actionPerformed( ActionEvent e ) {
                 if ( Global.modulePluginsActivated.contains( module ) ) {
-//                    CGUtil.showMessageDialog( hub, "MODULE \"" + module.getDisplayName()
-//                            + "\" (\"" + module.getClass().getSimpleName() + "\") is already running." );
                     module.activate();
                 } else {
                     module.startup( module );

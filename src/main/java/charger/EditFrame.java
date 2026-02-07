@@ -341,6 +341,13 @@ public class EditFrame extends JFrame
      * @see EditFrame#attachGraphToFrame
      */
     public EditFrame() {
+        System.out.println("DEBUG: EditFrame constructor called!");
+        setup();
+        graphSourceFile = new File( Global.GraphFolderFile, "Untitled" );
+        System.out.println("DEBUG: About to call WindowManager.manageWindow");
+        WindowManager.manageWindow( this );
+        System.out.println("DEBUG: WindowManager.manageWindow called, window count = " + WindowManager.getManagedWindows().size());
+
         setup();
         graphSourceFile = new File( Global.GraphFolderFile, "Untitled" );
         WindowManager.manageWindow( this );
