@@ -25,15 +25,14 @@ import charger.Global;
 import charger.obj.Graph;
 import chargerlib.ManagedWindow;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  * The user interface for performing CG-FCA tasks.
@@ -48,7 +47,7 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
     public CG_FCA_Window() {
         initComponents();
         getContentPane().setBackground( this.getBackground());
-        refreshGraphListActionPerformed( null );
+        SwingUtilities.invokeLater(this::refresh);
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 CG_FCA.shutdownCGFCA();
@@ -61,7 +60,7 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
             }
             
             public void windowActivated( WindowEvent e ) {
-                refresh();
+                SwingUtilities.invokeLater(() -> refresh());
             }
             
             
@@ -82,21 +81,23 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
     public JMenu getWindowMenu() {
         return windowMenu;
     }
-    
+
     public void refresh() {
-        this.editFrameList.setEnabled( false );
-        this.editFrameList.removeAllItems();
-        cxtText.setText( "No graphs open or selected" );
-        graphReport.setText( "No graphs open or selected" );    // hsd 07-30-20
-        graphSelectedNameLabel.setText( "....No graph selected..." );
-        for ( EditFrame ef : Global.editFrameList.values() ) {
-            String graphName = ef.getTitle();
-            editFrameList.addItem( graphName );
+        editFrameList.removeAllItems();
+
+        int count = Global.editFrameList.size();
+        if (count == 0) {
+            graphSelectedNameLabel.setText("No graphs open or selected");
+            cxtText.setText("No graphs open or selected");
+            graphReport.setText("No graphs open or selected");
+            return;
         }
-        this.editFrameList.setEnabled( true );
+
+        for (EditFrame ef : Global.editFrameList.values()) {
+            editFrameList.addItem(ef);
+        }
     }
-    
-    
+
 
     /**
      * Clear out the contents of the window, including the cxt text and the report.
@@ -218,35 +219,31 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
         refresh();
     }//GEN-LAST:event_refreshGraphListActionPerformed
 
-    private void editFrameListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editFrameListActionPerformed
+    private void editFrameListActionPerformed(java.awt.event.ActionEvent evt) {
 
-//        String pulldownPrompt = "Select a graph...";
-        Graph graphSelected = null;
-        if ( editFrameList.getSelectedIndex() < 0 ) {
-            graphSelectedNameLabel.setText( "....No graph selected..." );
-         cxtText.setText(  "");
-       } else {
-            String frameNameSelected = editFrameList.getSelectedItem().toString();
-            graphSelectedNameLabel.setText( frameNameSelected );
-            for ( EditFrame ef : Global.editFrameList.values() ) {
-                if ( ef.getTitle().equals( frameNameSelected ) ) {
-                    graphSelected = ef.TheGraph;
-                    break;
-                }
-            }
-            // Obtain the actual graph for the edit frame selected
-            // For now, give a brief summary of the graph
-
-            cxtText.setText( frameNameSelected + System.getProperty( "line.separator" ) + graphSelected.getBriefSummary() );
-            pf = cgfca.CG_FCA.generateCGFCA( graphSelected );
-            pf.setFilename( frameNameSelected );
-
-            this.cxtText.setText(  pf.getCxtContent());
-            this.graphReport.setText( "Report on: " + frameNameSelected + System.getProperty( "line.separator")
-                    + System.getProperty( "line.separator") + pf.getReportContent());
-
+        if (editFrameList.getSelectedIndex() < 0) {
+            graphSelectedNameLabel.setText("....No graph selected...");
+            cxtText.setText("");
+            return;
         }
-    }//GEN-LAST:event_editFrameListActionPerformed
+
+        EditFrame selectedFrame = (EditFrame) editFrameList.getSelectedItem();
+        Graph graphSelected = selectedFrame.TheGraph;
+
+        String frameNameSelected = selectedFrame.getTitle();
+        graphSelectedNameLabel.setText(frameNameSelected);
+
+        // generate FCA info
+        pf = cgfca.CG_FCA.generateCGFCA(graphSelected);
+        pf.setFilename(frameNameSelected);
+
+        this.cxtText.setText(pf.getCxtContent());
+        this.graphReport.setText(
+                "Report on: " + frameNameSelected
+                        + System.lineSeparator() + System.lineSeparator()
+                        + pf.getReportContent()
+        );
+    }
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
          if ( pf == null ) {
@@ -276,10 +273,17 @@ public class CG_FCA_Window extends JFrame implements ManagedWindow {
         JOptionPane.showMessageDialog( this, "Enable coreferents is " + CG_FCA.enableCoreferents);
     }//GEN-LAST:event_enableCorefsActionPerformed
 
+    public static void notifyNewFrameAdded() {
+        for (Frame f :JFrame.getFrames()) {
+            if (f instanceof CG_FCA_Window) {
+                SwingUtilities.invokeLater(() -> ((CG_FCA_Window) f).refresh());
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextArea cxtText;
-    private javax.swing.JComboBox<String> editFrameList;
+    private javax.swing.JComboBox<EditFrame> editFrameList;;
     public javax.swing.JCheckBox enableCorefs;
     private javax.swing.JButton exportButton;
     private javax.swing.JMenu fileMenu;

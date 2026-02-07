@@ -15,7 +15,6 @@ import charger.obj.GNode;
 import charger.obj.Relation;
 import kb.BinaryTuple;
 import repgrid.RGCell;
-import repgrid.RepertoryGrid;
 
 /**
  * The methods needed to support path finding in a repertory grid. The repertory

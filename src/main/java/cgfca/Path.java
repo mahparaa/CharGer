@@ -7,7 +7,6 @@
 package cgfca;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import charger.obj.Concept;
 import charger.obj.GNode;

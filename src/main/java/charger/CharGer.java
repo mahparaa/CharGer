@@ -116,7 +116,7 @@ public class CharGer {
 //        }
 
         String graphFolder = System.getProperty( "user.home");
-        boolean setInfoOn = false;
+        boolean setInfoOn = true;
         System.out.println( "osName/version is " + System.getProperty( "os.name" ) + " / " + System.getProperty( "os.version" ) );
 
         System.out.println( "Java version is " + System.getProperty( "java.specification.version" ) + " (VM "
